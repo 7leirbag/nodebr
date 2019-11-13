@@ -27,7 +27,7 @@ function obterUsuario(callback) {
 
 function obterTelefone(idUsuario, callback) {
 
-    return new Promise(function resolvePromise(resolve, reject){
+    return new Promise(function resolvePromise(resolve, reject) {
 
         setTimeout(() => {
             return resolve({
@@ -35,7 +35,7 @@ function obterTelefone(idUsuario, callback) {
                 ddd: 21
             })
         }, 2000);
-    })   
+    })
 }
 
 function obterEndereco(idUsuario, callback) {
@@ -53,42 +53,73 @@ function resolverUsuario(error, usuario) {
     console.log('usuario', usuario)
 }
 
-const usuarioPromise = obterUsuario()
+// 1° passo adicionar palavra async -> automaticamente ela retornará uma Promise
+main()
 
-usuarioPromise
-    .then(function (usuario){
-        return obterTelefone(usuario.id)
-        .then(function resolverTelefone(result){
-            return {
-                usuario: {
-                    nome: usuario.nome,
-                    id: usuario.id
-                },
-                telefone: result
-            }
-        })
-    })
-    .then(function (resultado){
-        const endereco = obterEnderecoAsync(resultado.usuario.id)
-        return endereco
-                .then(function resolverEndereco(result){
-                    return {
-                    usuario: resultado.usuario, 
-                    telefone: resultado.telefone,
-                    endereco: result
-                    }
-                });
-    })
-    .then(function (resultado) {
+async function main() {
+    try {
+        console.time('medida-promise')
+
+        const usuario = await obterUsuario()
+
+        const resultado = await Promise.all([
+            obterTelefone(usuario.id),
+            obterEnderecoAsync(usuario.id)
+        ])
+        
+        const endereco =  resultado[1]
+        const telefone = resultado[0]
+
         console.log(`
-            Nome: ${resultado.usuario.nome}
-            Endereco: ${resultado.endereco.rua}, ${resultado.endereco.numero}
-            Telefone: (${resultado.telefone.ddd}) ${resultado.telefone.telefone}
+            Nome: ${usuario.nome}
+            Telefone: (${telefone.ddd}) ${telefone.telefone},
+            Endereco: ${endereco.rua},  ${endereco.numero}
         `)
-    })
-    .catch(function(error){
+
+        console.timeEnd('medida-promise')
+
+    } catch (error) {
         console.error('Deu ruim', error)
-    })
+    }
+
+}
+
+// const usuarioPromise = obterUsuario()
+
+// usuarioPromise
+//     .then(function (usuario){
+//         return obterTelefone(usuario.id)
+//         .then(function resolverTelefone(result){
+//             return {
+//                 usuario: {
+//                     nome: usuario.nome,
+//                     id: usuario.id
+//                 },
+//                 telefone: result
+//             }
+//         })
+//     })
+//     .then(function (resultado){
+//         const endereco = obterEnderecoAsync(resultado.usuario.id)
+//         return endereco
+//                 .then(function resolverEndereco(result){
+//                     return {
+//                     usuario: resultado.usuario, 
+//                     telefone: resultado.telefone,
+//                     endereco: result
+//                     }
+//                 });
+//     })
+//     .then(function (resultado) {
+//         console.log(`
+//             Nome: ${resultado.usuario.nome}
+//             Endereco: ${resultado.endereco.rua}, ${resultado.endereco.numero}
+//             Telefone: (${resultado.telefone.ddd}) ${resultado.telefone.telefone}
+//         `)
+//     })
+//     .catch(function(error){
+//         console.error('Deu ruim', error)
+//     })
 
 
 
