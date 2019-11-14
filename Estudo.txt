@@ -7,6 +7,6 @@ https://medium.com/technoetics/node-js-event-emitter-explained-d4f7fd141a1a
 
 
 atual:
-https://cursos.nodebr.org/courses/448292/lectures/6939056
+https://cursos.nodebr.org/courses/448292/lectures/6939061
 
-7:00
+0:00
