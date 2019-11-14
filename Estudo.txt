@@ -4,3 +4,9 @@ https://braziljs.org/blog/promises-no-javascript/
 EventEmitter
 https://medium.com/technoetics/node-js-event-emitter-explained-d4f7fd141a1a
 
+
+
+atual:
+https://cursos.nodebr.org/courses/448292/lectures/6939056
+
+7:00
