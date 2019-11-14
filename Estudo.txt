@@ -1,0 +1,6 @@
+Promise 
+https://braziljs.org/blog/promises-no-javascript/
+
+EventEmitter
+https://medium.com/technoetics/node-js-event-emitter-explained-d4f7fd141a1a
+
